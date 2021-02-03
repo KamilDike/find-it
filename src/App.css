@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.card {
+  background-color: white;
+  height: 40rem;
+  width: 40rem;
+  border-radius: 50%;
+}
+
+.item > img {
+  width: 10rem;
+  height: 10rem;
+}
