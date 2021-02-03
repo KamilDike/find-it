@@ -1,10 +1,9 @@
 import React from 'react'
-import tree from './../images/tree.png'; 
 
-function Item() {
+function Item({src}) {
     return (
         <div className="item">
-            <img src={tree} alt="tree"/>
+            <img src={src} alt="tree"/>
         </div>
     )
 }
