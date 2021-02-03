@@ -52,19 +52,19 @@ function Card() {
         return array;
     }
 
-    async function initialize() {
-        let cards = await addFirstSet(n)
-        cards = await addNSets(n, cards)
-        cards = shuffleArray(cards)
-        return cards
-    }
-
     useEffect(() => {
-        initialize().then(res => console.log(res))
-    }, [])
+        const initialize = async () => {
+            let cards = await addFirstSet(n)
+            cards = await addNSets(n, cards)
+            cards = shuffleArray(cards)
+            setCards(cards)
+        }
+        initialize()
+    }, [n])
 
     return (
         <div className='card'>
+            {console.log(cards)}
             <Item src={cat}/>
         </div>
     )
