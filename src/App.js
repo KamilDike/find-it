@@ -1,12 +1,12 @@
 import './App.css';
-import Card from './components/Card';
 import React from 'react';
+import Game from './components/Game';
 
 function App() {
   return (
     <div className="App">
       <div className="App-header">
-        <Card/>
+        <Game/>
       </div>
     </div>
   );
