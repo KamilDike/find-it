@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Item({src}) {
+function Item({src, index}) {
     return (
-        <div className="item">
-            <img src={src} alt="tree"/>
+        <div className={`item item${index}`} onClick={() => alert(src)}>
+            <img src={src} alt={src}/>
         </div>
     )
 }

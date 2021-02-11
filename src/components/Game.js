@@ -17,6 +17,7 @@ import Card from './Card';
 function Game() {
     const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
     const [cards, setCards] = useState([])
+    const [currentCard, setCurrentCard] = useState(0)
 
     //The number of symbols on a card has to be a prime number + 1
     const numberOfSymbolsOnCard = 4
@@ -66,15 +67,17 @@ function Game() {
             let cards = await addFirstSet(n)
             cards = await addNSets(n, cards)
             cards = shuffleArray(cards)
+            console.log(cards)
             setCards(cards)
         }
         initialize()
     }, [n])
 
     return (
-        <div>
+        <div className="game container">
             {console.log(cards)}
-            <Card itemList={cards[0]}/>
+            <Card itemList={cards[currentCard]}/>
+            <Card itemList={cards[currentCard + 1]}/>
         </div>
     )
 }
