@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Item from './Item'
 
 
-function Card({itemList, active}) {
-    console.log(itemList)
+function Card({itemList, selectItem}) {
 
     return (
         <div className='card'>
             {itemList &&
                 itemList.map((item, index) => 
-                    <Item src={item} index={index}/>
+                    <Item src={item} index={index} key={index} selectItem={selectItem}/>
                 )
             }
         </div>

@@ -13,12 +13,15 @@ import tree from './../images/tree.png';
 import water from './../images/water.png'; 
 import zebra from './../images/zebra.png';
 import Card from './Card';
+import { Button } from 'react-bootstrap';
 
 function Game() {
     const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
     const [cards, setCards] = useState([])
     const [currentCard, setCurrentCard] = useState(0)
-
+    const [game, setGame] = useState(1)
+    const [points, setPoints] = useState()
+    const [startTime] = useState(Date.now())
     //The number of symbols on a card has to be a prime number + 1
     const numberOfSymbolsOnCard = 4
     const n = numberOfSymbolsOnCard - 1
@@ -67,17 +70,39 @@ function Game() {
             let cards = await addFirstSet(n)
             cards = await addNSets(n, cards)
             cards = shuffleArray(cards)
-            console.log(cards)
             setCards(cards)
         }
         initialize()
     }, [n])
 
+    const selectItem = (item) => {
+        const foundItem = cards[currentCard].indexOf(item)
+        if (foundItem !== -1) {
+            setCurrentCard(currentCard + 1);
+        }
+    }
+
+    useEffect(() => {
+        if (cards.length > 0 && currentCard === cards.length - 1) {
+            const points = 100000000 / (Date.now() - startTime)            
+            setPoints(parseInt(points));
+            setGame(0)
+        }
+    }, [currentCard, cards])
+
     return (
         <div className="game container">
-            {console.log(cards)}
-            <Card itemList={cards[currentCard]}/>
-            <Card itemList={cards[currentCard + 1]}/>
+            {game ?
+            <div>
+                <Card itemList={cards[currentCard]}/>
+                <Card itemList={cards[currentCard + 1]} selectItem={selectItem}/>
+            </div>
+            : 
+            <div>KONIEC GRY <br/> twój wynik:
+                <div className="points">{points}</div>
+                <Button onClick={() => window.location.reload()}>ZAGRAJ JESZCZE RAZ</Button>
+            </div>
+            }
         </div>
     )
 }
