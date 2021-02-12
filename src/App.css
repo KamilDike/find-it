@@ -2,6 +2,7 @@
   text-align: center;
   height: 100vh;
   width: 100vw;
+  font-weight: 500;
 }
 
 .App-logo {
@@ -39,6 +40,14 @@
   }
 }
 
+.main > div {
+  margin: 5rem;
+}
+
+.collapsible div {
+  margin: 2rem 1rem;
+}
+
 .card {
   margin: auto;
   margin-bottom: 5rem;
@@ -67,4 +76,16 @@
 .points {
   color: rgb(230, 149, 0);
   font-size: 8rem;
+}
+
+.lobby__player {
+  background-color: rgb(210, 147, 30);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  color: black;
+}
+
+.lobby > p{
+  padding: 1rem;
 }
