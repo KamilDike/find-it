@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap'
 import React, { useState } from 'react'
 import Collapsible from 'react-collapsible'
-import db from '../config/Firebase';
+import firebase from '../config/Firebase';
 import { useCookies } from 'react-cookie';
 
 function Main() {
@@ -14,7 +14,7 @@ function Main() {
         for (let index = 0; index < 4; index++) {
             key += Math.floor(Math.random() * 10);
         }
-        await db.collection('HiddenLobbies').doc(key).collection('players').doc(cookies['username']).set({});
+        await firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(cookies['username']).set({});
         window.location.href = `/lobby/private/${key}`
     }
 
@@ -33,7 +33,7 @@ function Main() {
             default:
                 break;
         }
-        await db.collection('Lobbies').doc(lobby).collection('players').doc(cookies['username']).set({});
+        await firebase.firestore().collection('Lobbies').doc(lobby).collection('players').doc(cookies['username']).set({});
         window.location.href = `/lobby/${lobby}`
     }
 

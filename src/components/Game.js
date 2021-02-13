@@ -16,8 +16,7 @@ import Card from './Card';
 import { Button } from 'react-bootstrap';
 import DobbleAlghorithm from './DobbleAlghorithm';
 
-function Game({online}) {
-    const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
+function Game({online, setCard, setRuns, addPoint}) {
     const [cards, setCards] = useState([])
     const [currentCard, setCurrentCard] = useState(0)
     const [game, setGame] = useState(1)
@@ -25,30 +24,35 @@ function Game({online}) {
     const [startTime] = useState(Date.now())
 
     useEffect(() => {
+        const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
         let cards = [];
-        DobbleAlghorithm().then(alg => {
+        DobbleAlghorithm(online).then(alg => {
             alg.forEach((row, index) => {
-                cards.push(new Array());
+                cards.push([]);
                 row.forEach(el => cards[index].push(itemList[el]))
             })
             setCards(cards)
         })
-    }, [])
+    }, [online])
 
     const selectItem = (item) => {
         const foundItem = cards[currentCard].indexOf(item)
         if (foundItem !== -1) {
             setCurrentCard(currentCard + 1);
+            if (online) {
+                addPoint()
+            }
         }
     }
 
     useEffect(() => {
-        if (cards.length > 0 && currentCard === cards.length - 1) {
+        if (cards.length > 0 && currentCard === cards.length - 2) {
             const points = 100000000 / (Date.now() - startTime)            
             setPoints(parseInt(points));
             setGame(0)
+            setRuns(false)
         }
-    }, [currentCard, cards])
+    }, [])
 
     return (
         <div className="game container">
