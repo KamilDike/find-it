@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Collapsible from 'react-collapsible'
 import firebase from '../config/Firebase';
 import { useCookies } from 'react-cookie';
+import pikachu from './../images/pikachu.png'; 
 
 function Main() {
     const [lobbies] = useState([1, 2, 3])
@@ -45,16 +46,17 @@ function Main() {
 
     return (
         <div className="main">
+            <img src={pikachu} alt={pikachu}/>
             <div>
                 <Button onClick={() => window.location.href ='/gra'}>ZAGRAJ</Button>
             </div>
             {cookies['username'] ?
             <div>
                 <div>
-                    <Button onClick={() => createLobby()}>ZAPROS ZNAJOMYCH</Button>
+                    <Button onClick={() => createLobby()}>ZAPROŚ ZNAJOMYCH</Button>
                 </div>
                 <div className="collapsible">
-                    <Collapsible trigger={<Button>Dołącz</Button>}>
+                    <Collapsible trigger={<Button>DOŁĄCZ</Button>}>
                         {lobbies.length ? lobbies.map((lobby) => 
                             <div key={lobby}><Button onClick={() => joinLobby(lobby)}>{lobby}</Button></div>
                         ) : <p>Nic tu nie ma :(</p>}

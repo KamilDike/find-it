@@ -28,12 +28,14 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
 
     useEffect(() => {
         let cards = [];
-        lobbiesRef.doc(key).onSnapshot(doc => {
-            const card = doc.data().card
-            if (card) {
-                setOnlineCard([itemList[card[0]], itemList[card[1]], itemList[card[2]], itemList[card[3]]])
-            }
-        })
+        if (online) {
+            lobbiesRef.doc(key).onSnapshot(doc => {
+                const card = doc.data().card
+                if (card) {
+                    setOnlineCard([itemList[card[0]], itemList[card[1]], itemList[card[2]], itemList[card[3]]])
+                }
+            })
+        }
         DobbleAlghorithm().then(alg => {
             alg.forEach((row, index) => {
                 cards.push([]);
@@ -84,7 +86,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
                 </div>
                 : 
                 <div>KONIEC GRY <br/> twój wynik:
-                    <div className="points">{points} pkt</div>
+                    <div className="points colorOrange">{points} pkt</div>
                     <Button onClick={() => window.location.reload()}>ZAGRAJ JESZCZE RAZ</Button>
                 </div>
                 }

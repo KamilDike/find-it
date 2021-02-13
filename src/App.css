@@ -1,8 +1,19 @@
+* {
+  font-weight: 500 !important;
+}
+
+.colorOrange {
+  color:rgb(210, 147, 30);
+}
+
+.colorOrangeBackground {
+  background-color: rgb(210, 147, 30);
+}
+
 .App {
   text-align: center;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
-  font-weight: 500;
 }
 
 .App-logo {
@@ -23,7 +34,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -49,8 +59,7 @@
 }
 
 .card {
-  margin: auto;
-  margin-bottom: 5rem;
+  margin: 5rem auto;
   background-color: white;
   width: 20rem;
   height: 20rem;
@@ -58,6 +67,12 @@
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    margin: 1rem auto;
+  }
 }
 
 .item {
@@ -74,12 +89,11 @@
 }
 
 .points {
-  color: rgb(230, 149, 0);
-  font-size: 8rem;
+  font-size: 5rem;
+  margin: 2rem auto;
 }
 
 .lobby__player {
-  background-color: rgb(210, 147, 30);
   border-radius: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
@@ -90,6 +104,10 @@
   padding: 1rem;
 }
 
-.lobby__winner {
-  color: rgb(210, 147, 30);
+.lobby__menu {
+  margin: 2rem auto;
+}
+
+.btn {
+  width: 12rem;
 }

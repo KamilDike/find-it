@@ -91,13 +91,17 @@ function Lobby() {
             </div> :
             <div>
                 {players.map(player => 
-                    <div key={player} className="lobby__player">{player}</div>
+                    <div key={player} className="lobby__player colorOrangeBackground">{player}</div>
                 )}
-                <p><Button onClick={() => startGame()}>Start</Button></p>
-                <CopyToClipboard text={window.location.href}>
-                    <Button>Skopiuj link</Button>
-                </CopyToClipboard>
-                <p>Wygrywa: <span className="lobby__winner">{winner}</span> !!!</p>
+                <div className="lobby__menu">
+                    <p><Button onClick={() => startGame()}>Start</Button></p>
+                    <CopyToClipboard text={window.location.href}>
+                        <Button>Skopiuj link</Button>
+                    </CopyToClipboard>
+                </div>
+                {winner &&
+                    <p>Wygrywa: <span className="colorOrange">{winner}</span> !!!</p>
+                }
             </div>
             }
         </div>

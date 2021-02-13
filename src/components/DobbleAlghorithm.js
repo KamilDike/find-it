@@ -49,4 +49,4 @@ function shuffleArray(array) {
     return array;
 }
 
-module.exports = DobbleAlghorithm
+export default DobbleAlghorithm
