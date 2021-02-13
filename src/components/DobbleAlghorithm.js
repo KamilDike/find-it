@@ -2,14 +2,11 @@ const numberOfSymbolsOnCard = 4;
 const numberOfCards = numberOfSymbolsOnCard**2 - numberOfSymbolsOnCard + 1
 const itemList = [...Array(numberOfCards).keys()]
 
-const DobbleAlghorithm = (online = false) => {
+const DobbleAlghorithm = () => {
     const initialize = async () => {
         const n = numberOfSymbolsOnCard-1;
         let cards = await addFirstSet(n)
         cards = await addNSets(n, cards)
-        if (online) {
-            cards = cards.slice(1)
-        }
         cards = shuffleArray(cards)
         return cards;
     }

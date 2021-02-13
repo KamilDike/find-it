@@ -15,18 +15,26 @@ import zebra from './../images/zebra.png';
 import Card from './Card';
 import { Button } from 'react-bootstrap';
 import DobbleAlghorithm from './DobbleAlghorithm';
+const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
 
-function Game({online, setCard, setRuns, addPoint}) {
+function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
+    const [key] = useState(window.location.href.split('/').pop())
     const [cards, setCards] = useState([])
     const [currentCard, setCurrentCard] = useState(0)
     const [game, setGame] = useState(1)
     const [points, setPoints] = useState()
     const [startTime] = useState(Date.now())
+    const [onlineCard, setOnlineCard] = useState([])
 
     useEffect(() => {
-        const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
         let cards = [];
-        DobbleAlghorithm(online).then(alg => {
+        lobbiesRef.doc(key).onSnapshot(doc => {
+            const card = doc.data().card
+            if (card) {
+                setOnlineCard([itemList[card[0]], itemList[card[1]], itemList[card[2]], itemList[card[3]]])
+            }
+        })
+        DobbleAlghorithm().then(alg => {
             alg.forEach((row, index) => {
                 cards.push([]);
                 row.forEach(el => cards[index].push(itemList[el]))
@@ -36,30 +44,42 @@ function Game({online, setCard, setRuns, addPoint}) {
     }, [online])
 
     const selectItem = (item) => {
-        const foundItem = cards[currentCard].indexOf(item)
+        let foundItem;
+        if (online) {
+            foundItem = onlineCard.indexOf(item)
+        } else {
+            foundItem = cards[currentCard].indexOf(item)
+        }
         if (foundItem !== -1) {
             setCurrentCard(currentCard + 1);
             if (online) {
+                const newCard = [itemList.indexOf(cards[currentCard+1][0]), itemList.indexOf(cards[currentCard+1][1]), itemList.indexOf(cards[currentCard+1][2]), itemList.indexOf(cards[currentCard+1][3])]
+                setCard(newCard)
                 addPoint()
             }
         }
     }
 
     useEffect(() => {
-        if (cards.length > 0 && currentCard === cards.length - 2) {
+        if (cards.length > 0 && currentCard === cards.length - 3) {
             const points = 100000000 / (Date.now() - startTime)            
             setPoints(parseInt(points));
             setGame(0)
-            setRuns(false)
+            if (online) {
+                setRuns()
+            }
         }
-    }, [])
+    }, [currentCard])
 
     return (
         <div className="game container">
             <div>
                 {game ?
                 <div>
-                    <Card itemList={cards[currentCard]}/>
+                    {online ?
+                        <Card itemList={onlineCard}/> : 
+                        <Card itemList={cards[currentCard]}/>
+                    }
                     <Card itemList={cards[currentCard + 1]} selectItem={selectItem}/>
                 </div>
                 : 

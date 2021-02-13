@@ -89,3 +89,7 @@
 .lobby > p{
   padding: 1rem;
 }
+
+.lobby__winner {
+  color: rgb(210, 147, 30);
+}

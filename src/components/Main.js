@@ -33,7 +33,8 @@ function Main() {
             default:
                 break;
         }
-        await firebase.firestore().collection('Lobbies').doc(lobby).collection('players').doc(cookies['username']).set({});
+        await firebase.firestore().collection('Lobbies').doc(lobby).collection('players').doc(cookies['username']).set({points: 0})
+            .then(res => console.log(res));
         window.location.href = `/lobby/${lobby}`
     }
 

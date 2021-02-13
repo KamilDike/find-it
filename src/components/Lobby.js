@@ -4,12 +4,14 @@ import firebase from '../config/Firebase'
 import { useCookies } from 'react-cookie';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import Game from './Game';
+import fb from 'firebase'
 
 function Lobby() {
     const [key] = useState(window.location.href.split('/').pop())
     const [players, setPlayers] = useState([])
     const [cookies, setCookie] = useCookies(['username'])
     const [runs, setRuns] = useState(false)
+    const [winner, setWinner] = useState()
 
     let lobbiesRef;
     if(window.location.href.indexOf('private') !== -1) {
@@ -23,7 +25,8 @@ function Lobby() {
             const username = prompt("Podaj twoją nazwę.");
             if (username) {
                 setCookie('username', username)
-             firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(username).set({});
+                firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(username).set({points: 0});
+                firebase.firestore().collection('Lobbies').doc(key).collection('players').doc(username).set({points: 0});
             } else {
                 alert('Musisz podać nazwę')
                 window.location.href = '/'
@@ -44,7 +47,11 @@ function Lobby() {
                 snapshot.docs.forEach(doc => {
                     if (doc.id === key) {
                         const newData = doc.data()
+                        console.log(newData)
                         setRuns(newData.runs)
+                        if (newData.winner) {
+                            setWinner(newData.winner)
+                        }
                     }
                 })
             })
@@ -54,10 +61,11 @@ function Lobby() {
     }, [])
 
     const startGame = () => {
-        lobbiesRef.doc(key).collection('players').doc(cookies['username']).set({points: 0})
         lobbiesRef.doc(key).set({runs: true, card: 
-            ["cat", "banana", "basketball", "dog"]
+            [0, 1, 2, 3]
         })
+        firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(cookies['username']).set({points: 0});
+        firebase.firestore().collection('Lobbies').doc(key).collection('players').doc(cookies['username']).set({points: 0});
     }
 
     const setCard = (card) => {
@@ -67,19 +75,19 @@ function Lobby() {
     }
 
     const endGame = () => {
-        lobbiesRef.doc(key).set({runs: false})
+        lobbiesRef.doc(key).set({runs: false, winner: cookies['username']})
     }
 
     const addPoint = () => {
         lobbiesRef.doc(key).collection('players').doc(cookies['username'])
-            .update({"points" : firebase.firestore.FieldValue.increment(1)})
+            .update({'points' : fb.firestore.FieldValue.increment(1)})
     }
 
     return (
         <div className="lobby">
             {runs ? 
             <div>
-                <Game online={true} setCard={setCard} setRuns={endGame} addPoint={addPoint}/>
+                <Game online={true} setCard={setCard} setRuns={endGame} addPoint={addPoint} lobbiesRef={lobbiesRef}/>
             </div> :
             <div>
                 {players.map(player => 
@@ -89,6 +97,7 @@ function Lobby() {
                 <CopyToClipboard text={window.location.href}>
                     <Button>Skopiuj link</Button>
                 </CopyToClipboard>
+                <p>Wygrywa: <span className="lobby__winner">{winner}</span> !!!</p>
             </div>
             }
         </div>
