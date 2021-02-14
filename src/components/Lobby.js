@@ -98,6 +98,9 @@ function Lobby() {
                     <CopyToClipboard text={window.location.href}>
                         <Button>Skopiuj link</Button>
                     </CopyToClipboard>
+                    <p>
+                        <Button onClick={() => window.location.href = '/'}>Menu</Button>
+                    </p>
                 </div>
                 {winner &&
                     <p>Wygrywa: <span className="colorOrange">{winner}</span> !!!</p>

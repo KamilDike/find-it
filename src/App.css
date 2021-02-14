@@ -51,7 +51,7 @@
 }
 
 .main > div {
-  margin: 5rem;
+  margin: 2rem 0;
 }
 
 .collapsible div {
@@ -110,4 +110,5 @@
 
 .btn {
   width: 12rem;
+  margin: 1rem;
 }

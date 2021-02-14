@@ -25,6 +25,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
     const [points, setPoints] = useState()
     const [startTime] = useState(Date.now())
     const [onlineCard, setOnlineCard] = useState([])
+    const [delay, setDelay] = useState(0)
 
     useEffect(() => {
         let cards = [];
@@ -53,12 +54,16 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
             foundItem = cards[currentCard].indexOf(item)
         }
         if (foundItem !== -1) {
-            setCurrentCard(currentCard + 1);
-            if (online) {
-                const newCard = [itemList.indexOf(cards[currentCard+1][0]), itemList.indexOf(cards[currentCard+1][1]), itemList.indexOf(cards[currentCard+1][2]), itemList.indexOf(cards[currentCard+1][3])]
-                setCard(newCard)
-                addPoint()
+            if (Date.now() - delay > 2000) {
+                setCurrentCard(currentCard + 1);
+                if (online) {
+                    const newCard = [itemList.indexOf(cards[currentCard+1][0]), itemList.indexOf(cards[currentCard+1][1]), itemList.indexOf(cards[currentCard+1][2]), itemList.indexOf(cards[currentCard+1][3])]
+                    setCard(newCard)
+                    addPoint()
+                }
             }
+        } else {
+            setDelay(Date.now())
         }
     }
 
@@ -88,6 +93,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
                 <div>KONIEC GRY <br/> twój wynik:
                     <div className="points colorOrange">{points} pkt</div>
                     <Button onClick={() => window.location.reload()}>ZAGRAJ JESZCZE RAZ</Button>
+                    <Button onClick={() => window.location.href = '/'}>MENU</Button>
                 </div>
                 }
             </div>
