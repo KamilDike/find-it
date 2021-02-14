@@ -87,7 +87,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
                         <Card itemList={onlineCard}/> : 
                         <Card itemList={cards[currentCard]}/>
                     }
-                    <Card itemList={cards[currentCard + 1]} selectItem={selectItem}/>
+                    <Card itemList={cards[currentCard + 1]} selectItem={selectItem} loading={delay}/>
                 </div>
                 : 
                 <div>KONIEC GRY <br/> twój wynik:

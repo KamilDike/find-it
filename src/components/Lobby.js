@@ -96,7 +96,7 @@ function Lobby() {
                 <div className="lobby__menu">
                     <p><Button onClick={() => startGame()}>Start</Button></p>
                     <CopyToClipboard text={window.location.href}>
-                        <Button>Skopiuj link</Button>
+                        <Button onClick={() => alert('Link skopiowany do schowka ;)')}>Skopiuj link</Button>
                     </CopyToClipboard>
                     <p>
                         <Button onClick={() => window.location.href = '/'}>Menu</Button>
