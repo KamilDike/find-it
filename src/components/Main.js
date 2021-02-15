@@ -15,7 +15,7 @@ function Main() {
         for (let index = 0; index < 4; index++) {
             key += Math.floor(Math.random() * 10);
         }
-        await firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(cookies['username']).set({});
+        await firebase.firestore().collection('HiddenLobbies').doc(key).set({})
         window.location.href = `/lobby/private/${key}`
     }
 
@@ -34,8 +34,6 @@ function Main() {
             default:
                 break;
         }
-        await firebase.firestore().collection('Lobbies').doc(lobby).collection('players').doc(cookies['username']).set({points: 0})
-            .then(res => console.log(res));
         window.location.href = `/lobby/${lobby}`
     }
 

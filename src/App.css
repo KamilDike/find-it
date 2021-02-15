@@ -1,5 +1,6 @@
 * {
   font-weight: 500 !important;
+  margin: 0;
 }
 
 .colorOrange {
@@ -12,8 +13,6 @@
 
 .App {
   text-align: center;
-  height: 90vh;
-  width: 100vw;
 }
 
 .App-logo {
@@ -28,7 +27,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -75,9 +73,26 @@
   border: 3px solid rgb(210, 147, 30) !important;
 }
 
+.item > img {
+  height: 8rem;
+  width: 8rem;
+}
+
 @media only screen and (max-width: 600px) {
+  .main > img {
+    width: 90%;
+  }
   .card {
     margin: 1rem auto;
+    width: 70vw;
+    height: 70vw;
+  }
+  .item > img {
+    height: 30vw;
+    width: 30vw;
+  }
+  .game {
+    margin-top: 10vh;
   }
 }
 
@@ -87,11 +102,6 @@
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.item > img {
-  height: 8rem;
-  width: 8rem;
 }
 
 .points {

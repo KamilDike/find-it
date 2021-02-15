@@ -25,12 +25,13 @@ function Lobby() {
             const username = prompt("Podaj twoją nazwę.");
             if (username) {
                 setCookie('username', username)
-                firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(username).set({points: 0});
-                firebase.firestore().collection('Lobbies').doc(key).collection('players').doc(username).set({points: 0});
+                lobbiesRef.doc(key).collection('players').doc(username).set({points: 0});
             } else {
                 alert('Musisz podać nazwę')
                 window.location.href = '/'
             }
+        } else {
+            lobbiesRef.doc(key).collection('players').doc(cookies['username']).set({points: 0});
         }
 
         const initialize = async () => {
@@ -47,7 +48,6 @@ function Lobby() {
                 snapshot.docs.forEach(doc => {
                     if (doc.id === key) {
                         const newData = doc.data()
-                        console.log(newData)
                         setRuns(newData.runs)
                         if (newData.winner) {
                             setWinner(newData.winner)
@@ -64,8 +64,6 @@ function Lobby() {
         lobbiesRef.doc(key).set({runs: true, card: 
             [0, 1, 2, 3]
         })
-        firebase.firestore().collection('HiddenLobbies').doc(key).collection('players').doc(cookies['username']).set({points: 0});
-        firebase.firestore().collection('Lobbies').doc(key).collection('players').doc(cookies['username']).set({points: 0});
     }
 
     const setCard = (card) => {
@@ -83,11 +81,16 @@ function Lobby() {
             .update({'points' : fb.firestore.FieldValue.increment(1)})
     }
 
+    const leaveLobby = () => { 
+        lobbiesRef.doc(key).collection('players').doc(cookies['username']).delete()
+        window.location.href = '/'
+    }
+
     return (
         <div className="lobby">
             {runs ? 
             <div>
-                <Game online={true} setCard={setCard} setRuns={endGame} addPoint={addPoint} lobbiesRef={lobbiesRef}/>
+                <Game online={true} setCard={setCard} endGame={endGame} addPoint={addPoint} lobbiesRef={lobbiesRef}/>
             </div> :
             <div>
                 {players.map(player => 
@@ -99,7 +102,7 @@ function Lobby() {
                         <Button onClick={() => alert('Link skopiowany do schowka ;)')}>Skopiuj link</Button>
                     </CopyToClipboard>
                     <p>
-                        <Button onClick={() => window.location.href = '/'}>Menu</Button>
+                        <Button onClick={() => leaveLobby()}>Menu</Button>
                     </p>
                 </div>
                 {winner &&

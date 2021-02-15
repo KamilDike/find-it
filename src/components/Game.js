@@ -17,7 +17,7 @@ import { Button } from 'react-bootstrap';
 import DobbleAlghorithm from './DobbleAlghorithm';
 const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
 
-function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
+function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
     const [key] = useState(window.location.href.split('/').pop())
     const [cards, setCards] = useState([])
     const [currentCard, setCurrentCard] = useState(0)
@@ -28,6 +28,12 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
     const [delay, setDelay] = useState(0)
 
     useEffect(() => {
+        //loading images for quick access
+        itemList.forEach(item => {
+            const img = new Image()
+            img.src = item
+        })
+
         let cards = [];
         if (online) {
             lobbiesRef.doc(key).onSnapshot(doc => {
@@ -54,7 +60,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
             foundItem = cards[currentCard].indexOf(item)
         }
         if (foundItem !== -1) {
-            if (Date.now() - delay > 2000) {
+            if (Date.now() - delay > 1000) {
                 setCurrentCard(currentCard + 1);
                 if (online) {
                     const newCard = [itemList.indexOf(cards[currentCard+1][0]), itemList.indexOf(cards[currentCard+1][1]), itemList.indexOf(cards[currentCard+1][2]), itemList.indexOf(cards[currentCard+1][3])]
@@ -73,7 +79,7 @@ function Game({online, setCard, setRuns, addPoint, lobbiesRef}) {
             setPoints(parseInt(points));
             setGame(0)
             if (online) {
-                setRuns()
+                endGame()
             }
         }
     }, [currentCard])
