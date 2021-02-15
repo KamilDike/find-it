@@ -1,12 +1,10 @@
 import { Button } from 'react-bootstrap'
 import React, { useState } from 'react'
-import Collapsible from 'react-collapsible'
 import firebase from '../config/Firebase';
 import { useCookies } from 'react-cookie';
 import pikachu from './../images/pikachu.png'; 
 
 function Main() {
-    const [lobbies] = useState([1, 2, 3])
     const [cookies, setCookie] = useCookies(['username'])
     const [username, setUsername] = useState('')
 
@@ -19,22 +17,8 @@ function Main() {
         window.location.href = `/lobby/private/${key}`
     }
 
-    const joinLobby = async (key) => {
-        let lobby;
-        switch (key) {
-            case 1:
-                lobby = 'pierwszy'
-                break;
-            case 2:
-                lobby = 'drugi'
-                break;
-            case 3:
-                lobby = 'trzeci'
-                break;
-            default:
-                break;
-        }
-        window.location.href = `/lobby/${lobby}`
+    const joinLobby = (key) => {
+        window.location.href = `/lobby/${key}`
     }
 
     const submitUsername = (e) => {
@@ -50,16 +34,12 @@ function Main() {
             </div>
             {cookies['username'] ?
             <div>
-                <div>
+                <p>
                     <Button onClick={() => createLobby()}>ZAPROŚ ZNAJOMYCH</Button>
-                </div>
-                <div className="collapsible">
-                    <Collapsible trigger={<Button>DOŁĄCZ</Button>}>
-                        {lobbies.length ? lobbies.map((lobby) => 
-                            <div key={lobby}><Button onClick={() => joinLobby(lobby)}>{lobby}</Button></div>
-                        ) : <p>Nic tu nie ma :(</p>}
-                    </Collapsible>
-                </div>
+                </p>
+                <p>
+                    <Button onClick={() => joinLobby('pierwszy')}>DOŁĄCZ</Button>
+                </p>
             </div> : 
             <form onSubmit={(e) => submitUsername(e)}>
                 <input type="text" placeholder="Twoja nazwa" className="text-center" value={username} 
