@@ -21,6 +21,7 @@ function Lobby() {
     }
 
     useEffect(() => {
+        window.addEventListener("beforeunload", leave)
         if(!cookies['username']) {
             const username = prompt("Podaj twoją nazwę.");
             if (username) {
@@ -81,9 +82,12 @@ function Lobby() {
             .update({'points' : fb.firestore.FieldValue.increment(1)})
     }
 
-    const leaveLobby = () => { 
-        lobbiesRef.doc(key).collection('players').doc(cookies['username']).delete()
+    const goHome = () => { 
         window.location.href = '/'
+    }
+
+    const leave = e => {
+        lobbiesRef.doc(key).collection('players').doc(cookies['username']).delete()
     }
 
     return (
@@ -102,7 +106,7 @@ function Lobby() {
                         <Button onClick={() => alert('Link skopiowany do schowka ;)')}>Skopiuj link</Button>
                     </CopyToClipboard>
                     <p>
-                        <Button onClick={() => leaveLobby()}>Menu</Button>
+                        <Button onClick={() => goHome()}>Menu</Button>
                     </p>
                 </div>
                 {winner &&
