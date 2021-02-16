@@ -42,9 +42,13 @@ function Main() {
                 </p>
             </div> : 
             <form onSubmit={(e) => submitUsername(e)}>
-                <input type="text" placeholder="Twoja nazwa" className="text-center" value={username} 
+                <input id="usernameInput" type="text" placeholder="Twoja nazwa" className="text-center" value={username} 
                     onChange={(e) => setUsername(e.target.value)}
-                />    
+                />   
+                <input type="submit" value="✔️" className="btn-primary"/>
+                <p>
+                    <small>Odblokowuję multiplayer</small>
+                </p>
             </form>
             }
         </div>

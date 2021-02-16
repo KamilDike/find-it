@@ -13,7 +13,7 @@ function Card({itemList, selectItem, loading}) {
 
     useEffect(() => {
         if (loadingCard) {
-            setTimeout(() => {setLoadingCard(false)}, 2000)
+            setTimeout(() => {setLoadingCard(false)}, 1000)
         }
     }, [loadingCard])
 

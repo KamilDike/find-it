@@ -36,6 +36,7 @@ function Lobby() {
         }
 
         const initialize = async () => {
+            //Realtime players connection
             lobbiesRef.doc(key).collection('players').onSnapshot(snapshot => {
                 let players = [];
                 snapshot.docs.forEach(doc => {
@@ -45,6 +46,7 @@ function Lobby() {
                 })
                 setPlayers(players)
             })
+            //Realtime lobbies connection
             lobbiesRef.onSnapshot(snapshot => {
                 snapshot.docs.forEach(doc => {
                     if (doc.id === key) {
