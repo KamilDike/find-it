@@ -26,6 +26,7 @@ function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
     const [startTime] = useState(Date.now())
     const [onlineCard, setOnlineCard] = useState([])
     const [delay, setDelay] = useState(0)
+    const [loading, setloading] = useState(true)
 
     useEffect(() => {
         //loading images for quick access
@@ -50,6 +51,9 @@ function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
             })
             setCards(cards)
         })
+        setTimeout(() => {
+            setloading(false)
+        }, 2000);
     }, [online])
 
     const selectItem = (item) => {
@@ -86,23 +90,25 @@ function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
 
     return (
         <div className="game container">
-            <div>
-                {game ?
+            {loading ? <div className="loader"/> :
                 <div>
-                    {online ?
-                        <Card itemList={onlineCard}/> : 
-                        <Card itemList={cards[currentCard]}/>
+                    {game ?
+                    <div>
+                        {online ?
+                            <Card itemList={onlineCard}/> : 
+                            <Card itemList={cards[currentCard]}/>
+                        }
+                        <Card itemList={cards[currentCard + 1]} selectItem={selectItem} loading={delay}/>
+                    </div>
+                    : 
+                    <div>KONIEC GRY <br/> twój wynik:
+                        <div className="points colorOrange">{points} pkt</div>
+                        <Button onClick={() => window.location.reload()}>ZAGRAJ JESZCZE RAZ</Button>
+                        <Button onClick={() => window.location.href = '/'}>MENU</Button>
+                    </div>
                     }
-                    <Card itemList={cards[currentCard + 1]} selectItem={selectItem} loading={delay}/>
                 </div>
-                : 
-                <div>KONIEC GRY <br/> twój wynik:
-                    <div className="points colorOrange">{points} pkt</div>
-                    <Button onClick={() => window.location.reload()}>ZAGRAJ JESZCZE RAZ</Button>
-                    <Button onClick={() => window.location.href = '/'}>MENU</Button>
-                </div>
-                }
-            </div>
+            }
         </div>
     )
 }

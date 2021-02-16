@@ -3,6 +3,21 @@
   margin: 0;
 }
 
+.loader {
+  margin: 100px auto;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid rgb(210, 147, 30); /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .colorOrange {
   color:rgb(210, 147, 30);
 }
@@ -48,7 +63,23 @@
   }
 }
 
-.main > div {
+.main__content {
+  animation: main-load 500ms ease-in;
+}
+
+@keyframes main-load {
+  0% {
+    opacity: 0.1%;
+  }
+  50% {
+    opacity: 0.1%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+.main div {
   margin: 2rem 0;
 }
 
@@ -79,8 +110,8 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .main > img {
-    width: 90%;
+  .main img {
+    width: 80%;
   }
   .card {
     margin: 1rem auto;
