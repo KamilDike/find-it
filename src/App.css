@@ -79,13 +79,13 @@
   }
 }
 
-.main div {
-  margin: 2rem 0;
+/* .main div {
+  margin: 1rem 0;
 }
 
 .collapsible div {
   margin: 2rem 1rem;
-}
+} */
 
 .card {
   margin: 5rem auto;
@@ -107,6 +107,10 @@
 .item > img {
   height: 8rem;
   width: 8rem;
+}
+
+.main__content > img {
+  margin-bottom: 2rem;
 }
 
 @media only screen and (max-width: 600px) {

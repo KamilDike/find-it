@@ -15,6 +15,9 @@ import zebra from './../images/zebra.png';
 import Card from './Card';
 import { Button } from 'react-bootstrap';
 import DobbleAlghorithm from './DobbleAlghorithm';
+import Firebase from '../config/Firebase'
+import { useCookies } from 'react-cookie';
+
 const itemList = [cat, banana, basketball, dog, apple, charizard, earth, elephant, pikachu, thunder, tree, water, zebra]
 
 function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
@@ -27,6 +30,7 @@ function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
     const [onlineCard, setOnlineCard] = useState([])
     const [delay, setDelay] = useState(0)
     const [loading, setloading] = useState(true)
+    const [cookies] = useCookies(['username'])
 
     useEffect(() => {
         //loading images for quick access
@@ -79,11 +83,14 @@ function Game({online, setCard, endGame, addPoint, lobbiesRef}) {
 
     useEffect(() => {
         if (cards.length > 0 && currentCard === cards.length - 3) {
-            const points = 100000000 / (Date.now() - startTime)            
-            setPoints(parseInt(points));
+            const points = parseInt(100000000 / (Date.now() - startTime))          
+            setPoints(points);
             setGame(0)
             if (online) {
                 endGame()
+            } else if (cookies['username']){
+                Firebase.firestore().collection("Scores").doc()
+                    .set({name: cookies['username'], points: points})
             }
         }
     }, [currentCard])

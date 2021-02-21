@@ -3,10 +3,23 @@ import React, { useState, useEffect } from 'react'
 import firebase from '../config/Firebase';
 import { useCookies } from 'react-cookie';
 import pikachu from './../images/pikachu.png'; 
+import Collapsible from 'react-collapsible';
 
 function Main() {
     const [cookies, setCookie] = useCookies(['username'])
     const [username, setUsername] = useState('')
+    const [highscores, setHighscores] = useState([])
+
+    useEffect(() => {
+        firebase.firestore().collection("Scores").orderBy("points", "desc").limit(10)
+            .get().then((querySnapshot) => {
+                let highscores = []
+                querySnapshot.forEach((doc) => {
+                    highscores.push(doc.data());
+                });
+                setHighscores(highscores);
+            });
+    }, [])
 
     const createLobby = async () => {
         let key = '';
@@ -35,12 +48,17 @@ function Main() {
                 </div>
                 {cookies['username'] ?
                     <div>
-                        <p>
+                        <div>
                             <Button onClick={() => createLobby()}>ZAPROŚ ZNAJOMYCH</Button>
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             <Button onClick={() => joinLobby('pierwszy')}>DOŁĄCZ</Button>
-                        </p>
+                        </div>
+                        <Collapsible trigger={<Button>NAJLEPSZE WYNIKI</Button>}>
+                            {highscores.map((score, index) => 
+                                <div key={index}>{index+1}. {score.name} : <span className="colorOrange">{score.points}</span></div>
+                            )}
+                        </Collapsible>
                     </div> : 
                     <form onSubmit={(e) => submitUsername(e)}>
                         <input id="usernameInput" type="text" placeholder="Twoja nazwa" className="text-center" value={username} 
