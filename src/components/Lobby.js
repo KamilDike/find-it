@@ -26,21 +26,22 @@ function Lobby() {
             const username = prompt("Podaj twoją nazwę.");
             if (username) {
                 setCookie('username', username)
-                lobbiesRef.doc(key).collection('players').doc(username).set({points: 0});
+                lobbiesRef.doc(key).collection('players').doc(username).set({points: 0, joinDate: Date.now()});
             } else {
                 alert('Musisz podać nazwę')
                 window.location.href = '/'
             }
         } else {
-            lobbiesRef.doc(key).collection('players').doc(cookies['username']).set({points: 0});
+            lobbiesRef.doc(key).collection('players').doc(cookies['username']).set({points: 0, joinDate: Date.now()});
         }
 
         const initialize = async () => {
             //Realtime players connection
             lobbiesRef.doc(key).collection('players').onSnapshot(snapshot => {
                 let players = [];
+                const currentTime = Date.now()
                 snapshot.docs.forEach(doc => {
-                    if (doc.exists) {
+                    if (doc.exists && currentTime - doc.data().joinDate < 300000) {
                         players.push(doc.id)
                     }
                 })
